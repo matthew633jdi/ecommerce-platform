@@ -1,0 +1,74 @@
+@startuml
+' Skinparam for better readability
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "D2Coding" ' 폰트 설정 (설치된 폰트 사용, 없으면 기본 폰트)
+skinparam class {
+  BorderColor #A3B5B8
+  BackgroundColor #DDEEFF
+  ArrowColor #A3B5B8
+}
+
+' 테이블 정의 (클래스로 표현)
+class users {
+    + id: SERIAL <<PK>>
+    --
+    email: VARCHAR(255) <<UNIQUE>>
+    password: VARCHAR(255)
+    name: VARCHAR(100)
+    created_at: TIMESTAMP
+}
+
+class products {
+    + id: SERIAL <<PK>>
+    --
+    name: VARCHAR(255)
+    description: TEXT
+    price: DECIMAL(10, 2)
+    stock_quantity: INT
+    created_at: TIMESTAMP
+}
+
+class carts {
+    + id: SERIAL <<PK>>
+    --
+    user_id: INT <<FK>>
+    created_at: TIMESTAMP
+}
+
+class cart_items {
+    + id: SERIAL <<PK>>
+    --
+    cart_id: INT <<FK>>
+    product_id: INT <<FK>>
+    quantity: INT
+}
+
+class orders {
+    + id: SERIAL <<PK>>
+    --
+    user_id: INT <<FK>>
+    order_status: VARCHAR(50)
+    total_price: DECIMAL(10, 2)
+    ordered_at: TIMESTAMP
+}
+
+class order_items {
+    + id: SERIAL <<PK>>
+    --
+    order_id: INT <<FK>>
+    product_id: INT <<FK>>
+    quantity: INT
+    price: DECIMAL(10, 2)
+}
+
+' 관계 정의 (FOREIGN KEY를 기반으로)
+' FK(자식테이블) --> PK(부모테이블)
+carts "1" -- "1" users
+cart_items "N" -- "1" carts
+cart_items "N" -- "1" products
+
+orders "1" -- "1" users
+order_items "N" -- "1" orders
+order_items "N" -- "1" products
+
+@enduml
