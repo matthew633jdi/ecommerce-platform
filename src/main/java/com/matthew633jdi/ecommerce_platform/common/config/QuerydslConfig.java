@@ -1,4 +1,4 @@
-package com.matthew633jdi.ecommerce_platform.config;
+package com.matthew633jdi.ecommerce_platform.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
